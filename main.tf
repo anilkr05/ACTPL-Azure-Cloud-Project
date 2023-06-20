@@ -4,12 +4,14 @@ provider "azurerm"{
     }
 }
 
+//This is Resource Group Name.
 
 resource "azurerm_resource_group" "rgname" {
   name     = "${var.rgname}"
   location = "${var.location}"
 }
 
+//This is Network Security Group Name.
 
 resource "azurerm_network_security_group" "nsgname" {
   name                = "${var.nsgname}"
@@ -17,6 +19,7 @@ resource "azurerm_network_security_group" "nsgname" {
   resource_group_name = "${azurerm_resource_group.rgname.name}"
 }
 
+//This is Vnet name.
 
 resource "azurerm_virtual_network" "vnet" {
   name                = "${var.vnet}"
@@ -44,6 +47,7 @@ resource "azurerm_virtual_network" "vnet" {
 
 } 
 
+// This is AppService plan name.
 
 resource "azurerm_app_service_plan" "app-service-zenoptik-plan" {
   name                = "${var.app-service-zenoptik-plan}"
@@ -55,6 +59,8 @@ resource "azurerm_app_service_plan" "app-service-zenoptik-plan" {
     size = "S1"
   }
 }
+
+// This is AppService name.
 
 resource "azurerm_app_service" "app-service-zenoptik" {
   name                = "${var.app-service-zenoptik}"
@@ -78,6 +84,7 @@ resource "azurerm_app_service" "app-service-zenoptik" {
   }
 }
 
+//This is Active Directory application name.
 
 resource "azurerm_azuread_application" "Zenoptik__ad_app" {
   name                       = "${var.Zenoptik__ad_app}"
@@ -105,6 +112,7 @@ resource "azurerm_azuread_service_principal" "example" {
 }
 //
 
+//
 resource "azurerm_azuread_application" "example" {
   name                       = "example"
   homepage                   = "https://homepage"
@@ -113,6 +121,9 @@ resource "azurerm_azuread_application" "example" {
   available_to_other_tenants = false
   oauth2_allow_implicit_flow = true
 }
+//
+
+// This is Azure Active Directory Service Principal name.
 
 resource "azurerm_azuread_service_principal" "example" {
   application_id = "${azurerm_azuread_application.example.application_id}"
@@ -124,7 +135,8 @@ resource "azurerm_azuread_service_principal_password" "example" {
   end_date             = "2020-01-01T01:02:03Z"
 }
 
-################################################################
+
+// This is Azure Subnet name for Frontend. 
 
 resource "azurerm_subnet" "frontend" {
   name                 = "frontend"
@@ -133,6 +145,8 @@ resource "azurerm_subnet" "frontend" {
   address_prefix       = "10.254.0.0/24"
 }
 
+//This is Azure Subnet name for Backend. 
+
 resource "azurerm_subnet" "backend" {
   name                 = "backend"
   resource_group_name  = "${azurerm_resource_group.example.name}"
@@ -140,12 +154,15 @@ resource "azurerm_subnet" "backend" {
   address_prefix       = "10.254.2.0/24"
 }
 
+// This is Azure Public IP Details-
+
 resource "azurerm_public_ip" "example" {
   name                = "example-pip"
   resource_group_name = "${azurerm_resource_group.example.name}"
   location            = "${azurerm_resource_group.example.location}"
   allocation_method   = "Dynamic"
 }
+
 
 #&nbsp;since these variables are re-used - a locals block makes this more maintainable
 locals {
@@ -157,6 +174,9 @@ locals {
   request_routing_rule_name      = "${azurerm_virtual_network.example.name}-rqrt"
   redirect_configuration_name    = "${azurerm_virtual_network.example.name}-rdrcfg"
 }
+
+
+// This is Azure Application Gateway details-
 
 resource "azurerm_application_gateway" "app_gateway" {
   name                = "${var.app_gateway}"
@@ -215,14 +235,14 @@ resource "azurerm_application_gateway" "app_gateway" {
   }
 
 
-
-############################################################################
-####azurerm-sql#####
 resource "azurerm_resource_group" "example" {
   name     = "database-rg"
   location = "West Europe"
+  }
 }
 
+
+// This is Azure Storage Account details-
 
 resource "azurerm_storage_account" "Zenoptik_storage" {
   name                     = "${var.Zenoptik_storage}"
@@ -231,6 +251,8 @@ resource "azurerm_storage_account" "Zenoptik_storage" {
   account_tier             = "Standard"
   account_replication_type = "LRS"
 }
+
+// This is Azure SQL Server details-
 
 resource "azurerm_sql_server" "Zenoptik_sql-server" {
   name                         = "${var.Zenoptik_sql-server}"
