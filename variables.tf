@@ -1,68 +1,80 @@
+# Input variable definitions
+
 variable "rgname" {
+    default = "jenoptik-rg"
     type = string
-    description = "this is the name of resource group"
+    description = "This is the name of resource group."
   
 }
 
 variable "location" {
+    default = "----"
     type = string
-    description = "this is the location of RG"
+    description = "This is the location of Resources."
   
 }
 
 
 variable "nsgname" {
+    default = "jenoptik-nsg"
     type = string
-    description = "this is the name of Network_Security_Group"
+    description = "This is the name of Network_Security_Group for Resources"
   
 }
 
 
 variable "vnet" {
+    default = "jenoptik-vnet"
     type = string
-    description = "this is the name of Virtual_Network"
+    description = "This is the name of Virtual_Network for Resources and Application Services."
   
 }
 
 
-variable "app-service-zenoptik-plan" {
+variable "app-service-plan" {
+    default = "jenoptik-app-service-plan"
     type = string
-    description = "this is the name of app_service"
+    description = "This is app_service-plan."
   
 }
 
 
-variable "app-service-zenoptik" {
+variable "app-service" {
+    default = "jenoptik-app-service"
     type = string
-    description = "this is the name of App-Services"
+    description = "This is the name of App-Service."
   
 }
 
 
-variable "Zenoptik__ad_app" {
+variable "ad-app" {
+    default = "jenoptik-active-directory"
     type = string
-    description = "this is the name of active-directory_app"
+    description = "This is the name of active-directory_app."
   
 }
 
 
 variable "app_gateway" {
+    default = "jenoptik-app-gateway"
     type = string
-    description = "this is the name of App-gateway"
+    description = "This is the name of App-gateway"
   
 }
 
 
-variable "Zenoptik_storage" {
+variable "storage" {
+    default = "jenoptik-storage"
     type = string
-    description = "this is the name of Storage."
+    description = "This is the Storage for application."
   
 }
 
 
-variable "Zenoptik_sql-server" {
+variable "sql-server" {
+    default = "jenoptik-sql-server"
     type = string
-    description = "this is the name of Zenoptik_sql-server"
+    description = "This is the name of sql-server for the purpose of database."
   
 }
 

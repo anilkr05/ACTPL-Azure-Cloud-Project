@@ -1,54 +1,42 @@
-provider "azurerm"{
-    features{
-
+# Provider Requirements
+terraform {
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "=3.0.0"
     }
+  }
 }
 
-//This is Resource Group Name.
+# Configure the Microsoft Azure Provider
+provider "azurerm" {
+  features {}
+}
 
+# create a resource group
 resource "azurerm_resource_group" "rgname" {
   name     = "${var.rgname}"
   location = "${var.location}"
 }
 
-//This is Network Security Group Name.
-
+# Create Network Security Group
 resource "azurerm_network_security_group" "nsgname" {
   name                = "${var.nsgname}"
   location            = "${var.location}"
   resource_group_name = "${azurerm_resource_group.rgname.name}"
 }
 
-//This is Vnet name.
-
+# Create Virtual-network
 resource "azurerm_virtual_network" "vnet" {
   name                = "${var.vnet}"
   location            = "${azurerm_resource_group.location.location}"
   resource_group_name = "${azurerm_resource_group.rgname.name}"
   address_space       = ["10.0.0.0/16"]
   dns_servers         = ["10.0.0.4", "10.0.0.5"]
-
- //
-  ddos_protection_plan {
-    id     = "${azurerm_ddos_protection_plan.example.id}"
-    enable = true
-  } 
-  //
-
-  subnet {
-    name           = "subnet1"
-    address_prefix = "10.0.1.0/24"
-  }
+}
 
 
-  tags = {
-    environment = "-----"
-  }
-
-} 
-
-// This is AppService plan name.
-
+# Create AppService plan
 resource "azurerm_app_service_plan" "app-service-zenoptik-plan" {
   name                = "${var.app-service-zenoptik-plan}"
   location            = "${azurerm_resource_group.app-service-zenoptik-plan.location}"
@@ -60,8 +48,7 @@ resource "azurerm_app_service_plan" "app-service-zenoptik-plan" {
   }
 }
 
-// This is AppService name.
-
+# Create AppService
 resource "azurerm_app_service" "app-service-zenoptik" {
   name                = "${var.app-service-zenoptik}"
   location            = "${azurerm_resource_group.location.location}"
@@ -84,8 +71,7 @@ resource "azurerm_app_service" "app-service-zenoptik" {
   }
 }
 
-//This is Active Directory application name.
-
+# Create Active Directory application
 resource "azurerm_azuread_application" "Zenoptik__ad_app" {
   name                       = "${var.Zenoptik__ad_app}"
   homepage                   = "https://homepage"
@@ -123,8 +109,7 @@ resource "azurerm_azuread_application" "example" {
 }
 //
 
-// This is Azure Active Directory Service Principal name.
-
+# Create Azure Active Directory Service Principal
 resource "azurerm_azuread_service_principal" "example" {
   application_id = "${azurerm_azuread_application.example.application_id}"
 }
@@ -136,8 +121,7 @@ resource "azurerm_azuread_service_principal_password" "example" {
 }
 
 
-// This is Azure Subnet name for Frontend. 
-
+# Create Azure Subnet for Frontend 
 resource "azurerm_subnet" "frontend" {
   name                 = "frontend"
   resource_group_name  = "${azurerm_resource_group.example.name}"
@@ -145,8 +129,7 @@ resource "azurerm_subnet" "frontend" {
   address_prefix       = "10.254.0.0/24"
 }
 
-//This is Azure Subnet name for Backend. 
-
+#Create Azure Subnet for Backend 
 resource "azurerm_subnet" "backend" {
   name                 = "backend"
   resource_group_name  = "${azurerm_resource_group.example.name}"
@@ -154,8 +137,7 @@ resource "azurerm_subnet" "backend" {
   address_prefix       = "10.254.2.0/24"
 }
 
-// This is Azure Public IP Details-
-
+# Azure Public IP Details-
 resource "azurerm_public_ip" "example" {
   name                = "example-pip"
   resource_group_name = "${azurerm_resource_group.example.name}"
@@ -176,7 +158,7 @@ locals {
 }
 
 
-// This is Azure Application Gateway details-
+# This is Azure Application Gateway details-
 
 resource "azurerm_application_gateway" "app_gateway" {
   name                = "${var.app_gateway}"
@@ -234,15 +216,15 @@ resource "azurerm_application_gateway" "app_gateway" {
     backend_http_settings_name = "${local.http_setting_name}"
   }
 
-
+//
 resource "azurerm_resource_group" "example" {
   name     = "database-rg"
   location = "West Europe"
-  }
+  } 
+//
 }
 
-
-// This is Azure Storage Account details-
+# This is Azure Storage Account details-
 
 resource "azurerm_storage_account" "Zenoptik_storage" {
   name                     = "${var.Zenoptik_storage}"
@@ -252,7 +234,7 @@ resource "azurerm_storage_account" "Zenoptik_storage" {
   account_replication_type = "LRS"
 }
 
-// This is Azure SQL Server details-
+# This is Azure SQL Server details-
 
 resource "azurerm_sql_server" "Zenoptik_sql-server" {
   name                         = "${var.Zenoptik_sql-server}"
