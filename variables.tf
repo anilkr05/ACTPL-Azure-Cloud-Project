@@ -8,7 +8,7 @@ variable "rgname" {
 }
 
 variable "location" {
-    default = "----"
+    default = "Germany West Central"
     type = string
     description = "This is the location of Resources."
   
